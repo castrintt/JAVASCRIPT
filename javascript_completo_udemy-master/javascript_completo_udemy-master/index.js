@@ -1,48 +1,75 @@
-// exx 4
+// classse pessoa com saldo conta corrente, pix , compras (array) , tota pagar no mes  
 
-// cira uma classe que simule um carro 
-
-// propriedades marca cor gasolina restante 
-
-// crie um metodo de dirigit o carro que va diminuindo a gasolina gradativamente  
-
-// e um abaster para aumentar a gasolina quando necessario
-
-
-class $cria_carro {
-        constructor($marca,$cor,$gasolina,$consumo,$tanque){
-            this.marca = $marca
-            this.cor = $cor
-            this.gasolina = $gasolina
-            this.consumo = $consumo
-            this.tanque = $tanque
-        }
-        dirigir = (km) => {
-                for(let contador = 0 ; contador < this.gasolina;contador++){
-                        this.gasolina -= (km * this.consumo)
-                        if(this.gasolina == 0 || this.gasolina < 0){
-                            console.log("precisa abastecer")
+class conta_bancaria {
+                constructor(conta_corrente, compras, fechamento){
+                        this.conta_corrente = conta_corrente
+                        this.compras = compras
+                        this.fechamento = fechamento
+                }
+                pix_enviar(valor){
+                        if(this.conta_corrente < valor){
+                                console.log("saldo insuficiente para enviar pix")
+                        }else if(this.conta_corrente >= valor){
+                                this.conta_corrente -= valor
+                                return this.conta_corrente
                         }
-                        return this.gasolina     
                 }
-        }
-        abastecer = (km) => {
-                this.gasolina += km
-                if(this.gasolina >= this.tanque) {
-                    console.log("tanque cheio, não há como completar com mais gasolina")
-                    this.gasolina = this.tanque                  
-                    return this.gasolina
+                pix_receber(valor){
+                                this.conta_corrente += valor
+                                return this.conta_corrente
                 }
-                return this.gasolina
-        }
+                total = () => {
+                        for(let i = 0 ; i < this.compras.length ;i++){
+                                this.fechamento += this.compras[i]
+                                
+                        }  
+                        return this.fechamento
+                }
+                pagar = () => {
+                        
+                        if(this.conta_corrente < this.fechamento){
+                                console.log("saldo insuficiente para efetuar o pagamento da conta")
+                                
+                        }else if(this.conta_corrente >= this.fechamento){
+                                this.conta_corrente -= this.fechamento
+                                this.fechamento = 0
+                                return this.conta_corrente
+                        }
+                        
+                }
 }
 
-let $ferrari = new $cria_carro("ferrari","preta",100,10,200)
-
-$ferrari.dirigir(10)
 
 
-$ferrari.abastecer(280)
 
-console.log($ferrari.gasolina)
+
+let conta_igor = new conta_bancaria(1000,[200,200,50,65],0)
+
+console.log(conta_igor)
+
+// conta_bancaria {
+//         total: [Function: total],     
+//         pagar: [Function: pagar],     
+//         conta_corrente: 1000,
+//         compras: [ 200, 200, 50, 65 ],
+//         fechamento: 0                                    \javascript_comple
+//       }
+
+conta_igor.total() //soma as compras
+
+conta_igor.pix_enviar(500) //retira do saldo conta_corrente 500 reais se houver
+
+conta_igor.pix_receber(20)// acrescenta o valor dentro de conta_corrente
+
+conta_igor.pagar() // se o valor de conta_corrente for maior ou igual ao fechamento, diminui o valor da conta_corrente e zera o fechamento
+
+console.log(conta_igor)
+
+// conta_bancaria {
+//         total: [Function: total],
+//         pagar: [Function: pagar],
+//         conta_corrente: 5,
+//         compras: [ 200, 200, 50, 65 ],
+//         fechamento: 0
+//       }
 
